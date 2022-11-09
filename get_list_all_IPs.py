@@ -1,7 +1,8 @@
-import json, psycopg2, hidden_2
+import json, psycopg2 
+import hidden_2  # hidden_2.py file in repo with secrets about connection to the database 
 
 conn_2 = psycopg2.connect(
-	host=hidden_2.secrets_2()['host'], # Get secrets from hidden_2.py file about connection to the database 
+	host=hidden_2.secrets_2()['host'], 
 	port=hidden_2.secrets_2()['port'],
 	database=hidden_2.secrets_2()['database'],
 	user=hidden_2.secrets_2()['user'])
@@ -56,4 +57,3 @@ print('Updated database: ', var_3)  # To show the results via Terminal
 # list_2 = [ print(k['ip']) for k in nested_dict['other_data']['ips'] ]  # Alternative variant (it works fine & prints strings)
 
 # hidden_2.json_file_export_TG_account_data
-
