@@ -3,7 +3,7 @@ import json
 with open('export_result_TG_account_N4.json', 'r') as json_file: 
 	exported_data_nested_dict = json.load(json_file)
 
-chat_id_input = input('Paste Telegram chat-ID (numbers only) to export all its\' previous data: ')
+chat_id_input = input('Paste Telegram chat-ID (numbers only) to export all previous data from this chat: ')
 
 for k in exported_data_nested_dict["chats"]["list"]:
 	if chat_id_input == str(k["id"]):
@@ -27,7 +27,6 @@ for k in exported_data_nested_dict["chats"]["list"]:
 	# 	print('NOT found this chat-ID') 
 	# else: 
 	# 	print('Found this chat-ID')
-
 
 
 # all_chat_ids_list = []

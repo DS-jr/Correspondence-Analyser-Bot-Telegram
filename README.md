@@ -1,5 +1,5 @@
-# Correspondence-Analyser-Bot-Telegram
-This Bot:  
+# Correspondence-Analyser-Script
+This script:  
 - Parses data from your own Telegram account
 - Puts this data to Postgres database 
 - Analyses your correspondence in Telegram during selected periods of time:
