@@ -1,8 +1,10 @@
 __pycache__/
-env2/
 env/
+env3/
+env*/
 venv/
 .idea/
+.hidden_2.py
 hidden_2.py
 other_data.json 
 export_result_TG_account_N4.json
