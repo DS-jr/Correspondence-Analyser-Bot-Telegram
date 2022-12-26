@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 with open("export_result_TG_account_N4.json") as json_export_file:
-    dict_3 = json.load(json_export_file)
+    correspondence_export_dictionary = json.load(json_export_file)
     # print(type(dict_3))
     # a_1 = json_export.read()
     # print(type(a_1))
@@ -25,8 +25,35 @@ cur_3.execute(var_2)
 connection_3.commit()
 
 
-
 # (TASK) (w/ Python) Insert all the selected CHAT IDs to this table
+for chat in correspondence_export_dictionary['chats']['list']:
+    var_5 = "INSERT INTO chats (name, type, tgchatid) VALUES (%s, %s, %s)"
+    cur_3.execute(var_5, (chat.get('name', 'NA'), chat.get('type'), chat.get('id')))
+
+    # var_4 = "INSERT INTO chats (name) VALUES (%s);"
+    # cur_3.execute(var_4, (chat.get('name', 'NA'),))
+
+    # var_4 = "INSERT INTO chats (tgchatid) VALUES (%s);"
+    # cur_3.execute(var_4, (chat.get('id'),))
+
+    # var_4 = "INSERT INTO chats (type) VALUES (%s);"
+    # cur_3.execute(var_4, (chat.get('type', 'NA'),)) # This line worked!  Pay attention to the comma between parenthesis at the end
+
+    #var_4 = "INSERT INTO chats (name, type, tgchatid) VALUES (%s, %s, %s);"
+    #cur_3.execute(var_4, (chat.get('name'), chat.get('type'), chat.get('id')))
+
+    #print(chat.get('messages'))
+    #print(chat.get('id', 'NA'), chat.get('type', 'NA'), chat.get('name', 'NA'))
+    #print(chat.get('name'))
+    #print(f"name: {chat.get('name', 'NA')}")
+    #print(chat['name'])
+    #print(type(chat))
+connection_3.commit()
+
+
+
+
+
 
 # Variant 1:
 # for k in dict_3["chats"]["list"]:  # (CDL) Adding "if True" condition below is important, as it's better to check if every key exists in every dict
