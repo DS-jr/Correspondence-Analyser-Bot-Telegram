@@ -9,7 +9,6 @@ with open("export_result_TG_account_N4.json") as json_export_file:
     # a_1 = json_export.read()
     # print(type(a_1))
 
-
 connection_3 = psycopg2.connect(
     host=os.getenv("HOST"),
     port=os.getenv("PORT"),
