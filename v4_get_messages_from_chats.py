@@ -1,4 +1,3 @@
-# (via Python)  In Postgres DB: create a new table (for putting data from “messages” section in JSON)
 import json, psycopg2, os
 from dotenv import load_dotenv
 
@@ -13,25 +12,38 @@ connection_4 = psycopg2.connect(
 
 cursor_4 = connection_4.cursor()
 
-# var_1 = "INSERT INTO chats (name) VALUES ('v1 maNuaLLy aDDed nAme');"
-# cursor_4.execute(var_1)
-# connection_4.commit()
-
-
 with open("export_result_TG_account_N4.json") as json_file:
     str_1 = json_file.read()
     export_data_to_dictionary = json.loads(str_1)
-    # print(type(export_data_to_dictionary))
-    # print(type(str_1))
 
 list_of_chats = export_data_to_dictionary["chats"]["list"]
-# print(list_of_chats)
-# print(type(list_of_chats))
+
 for chat in list_of_chats:
     message_data = chat["messages"]
     for parameters in message_data:
         message_date = parameters["date"]
-        message_text = parameters["text"]  # ?! The output may be a string OR a list with strings / dicts
+        message_text = parameters["text"]  # (?) The output may be a string OR a list with strings / dicts
+
+# + (via Python)  In Postgres DB: create a new table with necessary columns for putting data from JSON’s “messages” section
+create_table_messages = """CREATE TABLE if not exists messages_1 (
+                        id SERIAL,
+                        tgmessageid INTEGER UNIQUE,
+                        type VARCHAR(32),
+                        date VARCHAR(128),
+                        date_unixtime VARCHAR(128),
+                        fromname VARCHAR(128),
+                        fromid VARCHAR(128),
+                        text VARCHAR,
+                        PRIMARY KEY (id)
+                        );"""
+# (?)  Did I choose data types correctly? Can some parts be done in a better / leaner way?
+# (?) 'text' column: The output may be a string OR a list with strings / dicts.  ***(also) Is 'TEXT' data type better than VARCHAR here?
+# (?)  "text_entities" sub-section in “messages”: shall I use the data from it & put it to DB?  ***It’s gonna be a mess.   ***As for now I’ve skipped it.
+cursor_4.execute(create_table_messages)
+connection_4.commit()
+
+
+
         # print(message_text)
         # print(type(message_text))
 
@@ -45,3 +57,13 @@ for chat in list_of_chats:
     # print(type(message_data))
     #print(type(chat))
 
+# print(list_of_chats)
+# print(type(list_of_chats))
+
+
+# var_1 = "INSERT INTO chats (name) VALUES ('v1 maNuaLLy aDDed nAme');"
+# cursor_4.execute(var_1)
+# connection_4.commit()
+
+# print(type(export_data_to_dictionary))
+# print(type(str_1))
