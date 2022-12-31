@@ -1,37 +1,38 @@
-import json, psycopg2 
-import hidden_2  # hidden_2.py file in repo with secrets about connection to the database 
+import json, psycopg2
+import hidden_2  # hidden_2.py file in repo with secrets about connection to the database
 
 conn_2 = psycopg2.connect(
-	host=hidden_2.secrets_2()['host'], 
-	port=hidden_2.secrets_2()['port'],
-	database=hidden_2.secrets_2()['database'],
-	user=hidden_2.secrets_2()['user'])
+    host=hidden_2.secrets_2()["host"],
+    port=hidden_2.secrets_2()["port"],
+    database=hidden_2.secrets_2()["database"],
+    user=hidden_2.secrets_2()["user"],
+)
 
 cur_2 = conn_2.cursor()
 # print(cur_2)
 # print(type(cur_2))
 
-var_1 = 'CREATE TABLE if not exists all_IP_addresses (id SERIAL, IP_address TEXT);'
+var_1 = "CREATE TABLE if not exists all_IP_addresses (id SERIAL, IP_address TEXT);"
 cur_2.execute(var_1)
 conn_2.commit()  # Flush to database server
 
-with open('export_result_TG_account_N4.json', 'r') as json_file:
-	nested_dict = json.load(json_file)
-list_1 = nested_dict['other_data']['ips']
+with open("export_result_TG_account_N4.json", "r") as json_file:
+    nested_dict = json.load(json_file)
+list_1 = nested_dict["other_data"]["ips"]
 # print(list_1)
 
-for dict_1 in list_1: 
-	var_2 = 'INSERT INTO all_ip_addresses (ip_address) VALUES (%s);'
-	cur_2.execute(var_2, (dict_1['ip'], ))
-conn_2.commit() 
+for dict_1 in list_1:
+    var_2 = "INSERT INTO all_ip_addresses (ip_address) VALUES (%s);"
+    cur_2.execute(var_2, (dict_1["ip"],))
+conn_2.commit()
 
-cur_2.execute('SELECT * FROM all_ip_addresses;') 
+cur_2.execute("SELECT * FROM all_ip_addresses;")
 var_3 = cur_2.fetchall()
 # print(type(var_3))
-print('Updated database: ', var_3)  # To show the results via Terminal
+print("Updated database: ", var_3)  # To show the results via Terminal
 
 
-	# print(dict_1['ip'])  # Get all IP addresses 
+# print(dict_1['ip'])  # Get all IP addresses
 # var_2 = 'INSERT INTO all_ip_addresses (ip_address) VALUES ;'
 # cur_2.execute(var_2)
 # conn_2.commit()
@@ -45,7 +46,7 @@ print('Updated database: ', var_3)  # To show the results via Terminal
 # cur_1 = conn_1.cursor()
 
 # cur_1.execute('SELECT * FROM account;')
-# a_1 = cur_1.fetchall() 
+# a_1 = cur_1.fetchall()
 # print(a_1)
 # print(type(a_1))
 

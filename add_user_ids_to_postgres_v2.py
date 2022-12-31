@@ -4,7 +4,7 @@ connection_1 = psycopg2.connect(
     host=hidden_2.secrets_2()["host"],
     port=hidden_2.secrets_2()["port"],
     database=hidden_2.secrets_2()["database"],
-    user=hidden_2.secrets_2()["user"]
+    user=hidden_2.secrets_2()["user"],
 )
 
 cur_1 = connection_1.cursor()
@@ -24,13 +24,9 @@ connection_1.commit()
 # (w/ Python) Select all data from an existing table & print it
 # cur_1.execute("SELECT * FROM all_ip_addresses;")
 # var_2 = cur_1.fetchall()
-#print(var_2)
-#print(var_1)
+# print(var_2)
+# print(var_1)
 
 
 # (w/ Python) Connect to a DB in Postgres
 # (w/ Python) Create a new table in Postgres w/ necessary columns
-
-
-
-

@@ -13,7 +13,7 @@ connection_3 = psycopg2.connect(
     host=os.getenv("HOST"),
     port=os.getenv("PORT"),
     database=os.getenv("DATABASE"),
-    user=os.getenv("USER")
+    user=os.getenv("USER"),
 )
 
 cur_3 = connection_3.cursor()
@@ -25,9 +25,9 @@ connection_3.commit()
 
 
 # (TASK) (w/ Python) Insert all the selected CHAT IDs to this table
-for chat in correspondence_export_dictionary['chats']['list']:
+for chat in correspondence_export_dictionary["chats"]["list"]:
     var_5 = "INSERT INTO chats (name, type, tgchatid) VALUES (%s, %s, %s);"
-    cur_3.execute(var_5, (chat.get('name', 'NA'), chat.get('type'), chat.get('id')))
+    cur_3.execute(var_5, (chat.get("name", "NA"), chat.get("type"), chat.get("id")))
 
     # var_4 = "INSERT INTO chats (name) VALUES (%s);"
     # cur_3.execute(var_4, (chat.get('name', 'NA'),))
@@ -38,20 +38,16 @@ for chat in correspondence_export_dictionary['chats']['list']:
     # var_4 = "INSERT INTO chats (type) VALUES (%s);"
     # cur_3.execute(var_4, (chat.get('type', 'NA'),)) # This line worked!  Pay attention to the comma between parenthesis at the end
 
-    #var_4 = "INSERT INTO chats (name, type, tgchatid) VALUES (%s, %s, %s);"
-    #cur_3.execute(var_4, (chat.get('name'), chat.get('type'), chat.get('id')))
+    # var_4 = "INSERT INTO chats (name, type, tgchatid) VALUES (%s, %s, %s);"
+    # cur_3.execute(var_4, (chat.get('name'), chat.get('type'), chat.get('id')))
 
-    #print(chat.get('messages'))
-    #print(chat.get('id', 'NA'), chat.get('type', 'NA'), chat.get('name', 'NA'))
-    #print(chat.get('name'))
-    #print(f"name: {chat.get('name', 'NA')}")
-    #print(chat['name'])
-    #print(type(chat))
+    # print(chat.get('messages'))
+    # print(chat.get('id', 'NA'), chat.get('type', 'NA'), chat.get('name', 'NA'))
+    # print(chat.get('name'))
+    # print(f"name: {chat.get('name', 'NA')}")
+    # print(chat['name'])
+    # print(type(chat))
 connection_3.commit()
-
-
-
-
 
 
 # Variant 1:
@@ -60,9 +56,9 @@ connection_3.commit()
 #         print('yes')
 #     else:
 #         pass
-    #print(type(k))
-    # var_3 = "INSERT INTO v1_tg_data_export(name, type, tgchatid) VALUES(%s, %s, %s)"
-    # cur_3.execute()
+# print(type(k))
+# var_3 = "INSERT INTO v1_tg_data_export(name, type, tgchatid) VALUES(%s, %s, %s)"
+# cur_3.execute()
 # if k['type'] in dict_3["chats"]["list"]:
 
 # Variant 2:
@@ -70,9 +66,8 @@ connection_3.commit()
 # for k in range():  #  Try a temporary solution: exclude "Saved messages" chat
 
 
-
-#a_1 = dict_3["chats"]["list"][1]["id"]
-#print(a_1)
+# a_1 = dict_3["chats"]["list"][1]["id"]
+# print(a_1)
 
 # var_1 = "INSERT INTO contacts_users (tg_ids) VALUES (78901);"
 # cur_3.execute(var_1)

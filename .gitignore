@@ -7,4 +7,4 @@ venv/
 hidden*
 other_data.json 
 export_result_TG_account_N4.json
-
+*.json
