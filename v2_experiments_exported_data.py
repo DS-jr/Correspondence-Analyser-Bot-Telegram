@@ -1,14 +1,14 @@
-import json 
+import json
 
-with open('export_result_TG_account_N4.json', 'r') as json_file:
-    dict_3 = json.load(json_file)  #  Load JSON file directly to a Python dictionary 
+with open("export_result_TG_account_N4.json", "r") as json_file:
+    dict_3 = json.load(json_file)  #  Load JSON file directly to a Python dictionary
 # print(type(dict_3))
 
-about_section_value = dict_3['about']
+about_section_value = dict_3["about"]
 # print(about_section_value)
 # print(type(about_section_value))
 
-first_name_value = dict_3['contacts']['list'][1]['first_name']
+first_name_value = dict_3["contacts"]["list"][1]["first_name"]
 # print(first_name_value)
 # print(type(first_name_value))
 
