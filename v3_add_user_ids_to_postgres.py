@@ -26,7 +26,7 @@ connection_3.commit()
 
 # (TASK) (w/ Python) Insert all the selected CHAT IDs to this table
 for chat in correspondence_export_dictionary['chats']['list']:
-    var_5 = "INSERT INTO chats (name, type, tgchatid) VALUES (%s, %s, %s)"
+    var_5 = "INSERT INTO chats (name, type, tgchatid) VALUES (%s, %s, %s);"
     cur_3.execute(var_5, (chat.get('name', 'NA'), chat.get('type'), chat.get('id')))
 
     # var_4 = "INSERT INTO chats (name) VALUES (%s);"

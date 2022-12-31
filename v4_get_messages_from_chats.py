@@ -18,11 +18,11 @@ with open("export_result_TG_account_N4.json") as json_file:
 
 list_of_chats = export_data_to_dictionary["chats"]["list"]
 
-for chat in list_of_chats:
-    message_data = chat["messages"]
-    for parameters in message_data:
-        message_date = parameters["date"]
-        message_text = parameters["text"]  # (?) The output may be a string OR a list with strings / dicts
+# for chat in list_of_chats:
+#     message_data = chat["messages"]
+#     for parameters in message_data:
+#         message_date = parameters["date"]
+#         message_text = parameters["text"]  # (?) The output may be a string OR a list with strings / dicts
 
 # + (via Python)  In Postgres DB: create a new table with necessary columns for putting data from JSON’s “messages” section
 create_table_messages = """CREATE TABLE if not exists messages_1 (
@@ -42,6 +42,16 @@ create_table_messages = """CREATE TABLE if not exists messages_1 (
 cursor_4.execute(create_table_messages)
 connection_4.commit()
 
+
+# ! (via Python)  Send “tgmessageid” data from “messages” section in the Dictionary to the target table already created in the DB
+for chat in export_data_to_dictionary["chats"]["list"]:
+    for message_parameter in chat["messages"]:
+        var_3 = "INSERT INTO messages_1 (tgmessageid, type, date, date_unixtime, fromname, fromid) VALUES (%s, %s, %s, %s, %s, %s)"
+        cursor_4.execute(var_3, (message_parameter["id"], message_parameter["type"], message_parameter["date"], message_parameter["date_unixtime"], message_parameter["from"], message_parameter["from_id"]))
+        # var_1 = message_parameter["id"]
+        # var_2 = "INSERT INTO messages_1 (tgmessageid) VALUES (var_1);" # (?) Why does this line create an error?  ***psycopg2.errors.UndefinedColumn: column "var_1" does not exist
+        # cursor_4.execute(var_2)
+connection_4.commit()
 
 
         # print(message_text)
