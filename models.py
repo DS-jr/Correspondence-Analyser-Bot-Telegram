@@ -9,7 +9,7 @@ Base = declarative_base()
 #     pass
 # *** (from documentation)  Changed in version 2.0: Note that the declarative_base() function is superseded by the new DeclarativeBase class, which generates a new “base” class using subclassing, rather than return value of a function. This allows an approach that is compatible with PEP 484 typing tools.
 
-engine = create_engine(config.DATABASE_STRING, echo=True, future=True)
+engine = create_engine(config.DATABASE_STRING, echo=True, future=True)  # Engine is a factory that can create new database connections
 
 class TelegramChat(Base):
     __tablename__ = "telegram_chat"
