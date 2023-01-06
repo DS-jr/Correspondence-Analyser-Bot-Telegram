@@ -12,20 +12,21 @@ engine = create_engine(config.DATABASE_STRING, future=True)  # Engine is a facto
 with engine.connect() as con_5:
 
     for chat in exported_data_dict["chats"]["list"]:
-        var_1 = text(  # (?) Try to delete 'text' module: is it vital here?
-        # (?!) Test what happens if I do NOT use colons in line 18
+        var_1 = text(
         """
-        INSERT INTO telegram_chats (name, type, telegram_id,) 
-        VALUES(:name_1, :type_1, :id_1)   
+        INSERT INTO telegram_chat (telegram_id, name, type) 
+        VALUES(:id_1, :name_1, :type_1)   
         ON CONFLICT (telegram_id) DO NOTHING
         """
         )
-        con_5.execute(var_1, {"id_1": chat["id"], "name_1": chat["name"], "type_1": chat["type"]})
+        con_5.execute(var_1, {"id_1": chat["id"], "name_1": chat.get("name"), "type_1": chat["type"]},)
 
-        for message in chat["messages"]:
-            var_2 = text(
-            # Proceed from here!
-            )
+# Proceed from here!
+        # for message in chat["messages"]:
+        #     var_2 = text( ..??..
+        #     )
+
+    con_5.commit()
 
 
 
@@ -33,4 +34,14 @@ with engine.connect() as con_5:
         # print(chat["type"])
     # print(type(exported_data_dict["chats"]["list"]))
     # ...??...
+
+    # (?) Try to delete 'text' module: is it vital here?
+
+    # (?!) Test what happens if I do NOT use colons in "VALUES" line
+
+
+
+
+
+
 
