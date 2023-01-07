@@ -31,6 +31,8 @@ class TelegramMessage(Base):
     unix_timestamp = Column(BigInteger)
     from_name = Column(String(128))
     from_id = Column(String(128))
+    # text
+    # text_entities   # In JSOIN it contains a list of dictionaries
 
     chat_id = Column(BigInteger, ForeignKey("telegram_chat.telegram_id"), nullable=False)  # Proceed from here!
 

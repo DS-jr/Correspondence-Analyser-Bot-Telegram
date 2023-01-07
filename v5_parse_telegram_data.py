@@ -21,13 +21,18 @@ with engine.connect() as con_5:
         )
         con_5.execute(var_1, {"id_1": chat["id"], "name_1": chat.get("name"), "type_1": chat["type"]},)
 
-# Proceed from here!
-        # for message in chat["messages"]:
-        #     var_2 = text( ..??..
-        #     )
+        for message in chat["messages"]:
+            var_2 = text(
+            """
+            INSERT INTO telegram_message (telegram_id, date, unix_timestamp, from_name, from_id, chat_id)
+            VALUES(:id_2, :date_2, :unix_timestamp_2, :from_name_2, :from_id_2, :chat_id_2) 
+            ON CONFLICT(telegram_id) DO NOTHING
+            """
+            )
+            con_5.execute(var_2, {"id_2": message["id"], "date_2": message["date"], "unix_timestamp_2": message["date_unixtime"], "from_name_2": message.get("from"), "from_id_2": message.get("from_id"), "chat_id_2": chat["id"]},)
+            # Can "chat_id_2: chat["id"]" be used in the previous line? Or is it 'duplicating'? (if yes - how to do that correctly?
 
-    con_5.commit()
-
+        con_5.commit()
 
 
 
