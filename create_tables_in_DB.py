@@ -12,15 +12,15 @@ engine = create_engine(config.DATABASE_STRING, echo=True, future=True)  # Engine
 
 class TelegramChat(Base):
     __tablename__ = "telegram_chat"
-    id = Column(Integer, primary_key=True)
+    id = Column(BigInteger, primary_key=True)
+    telegram_id = Column(BigInteger, unique=True)
     name = Column(String(128))
     type = Column(String(64))
-    telegram_id = Column(BigInteger, unique=True)
 
-    messages = relationship("TelegramMessage", back_populates="message", cascade="all, delete")  # Why "message" here, but NOT "chat" ? ?
+    messages = relationship("TelegramMessage", back_populates="chat", cascade="all, delete")  # (?) What should be used here: ?"message" or "chat" ?
 
     def __repr__(self):
-        return f"Chat(id={self.telegram_id!r}, name={self.name!r})"  # (?) Why "type" is NOT used here, but only "id" & "name"?
+        return f"Chat(id={self.telegram_id!r}, name={self.name!r})"  # (??) What for is this line? Why "type" is NOT used here, but only "id" & "name"?
 
 
 class TelegramMessage(Base):
@@ -32,9 +32,9 @@ class TelegramMessage(Base):
     from_name = Column(String(128))
     from_id = Column(String(128))
     # text
-    # text_entities   # In JSOIN it contains a list of dictionaries
+    # text_entities   # In JSON it contains a list of dictionaries
 
-    chat_id = Column(BigInteger, ForeignKey("telegram_chat.telegram_id"), nullable=False)  # Proceed from here!
+    chat_id = Column(BigInteger, ForeignKey("telegram_chat.telegram_id"), nullable=False)
 
     chat = relationship("TelegramChat", back_populates="messages")
 

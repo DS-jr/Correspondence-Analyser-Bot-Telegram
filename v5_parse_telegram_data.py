@@ -1,6 +1,7 @@
 import json, config
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, insert, delete
 from sqlalchemy.sql import text
+from create_tables_in_DB import TelegramChat, TelegramMessage
 
 with open("export_result_TG_account_N4.json") as json_file:
     exported_data_dict = json.load(json_file)
@@ -8,30 +9,55 @@ with open("export_result_TG_account_N4.json") as json_file:
 
 engine = create_engine(config.DATABASE_STRING, future=True)  # Engine is a factory that can create new database connections
 
-# insert chat data (telegram_id, name, type) into SQLite:
+# Insert chat data (telegram_id, name, type) into SQLite:
+
+# ins = students.insert().values(name = 'Ravi', lastname = 'Kapoor')
+# conn = engine.connect()
+# result = conn.execute(ins)
+
 with engine.connect() as con_5:
 
+    delete_all = delete(TelegramChat)
+    con_5.execute(delete_all)
+
     for chat in exported_data_dict["chats"]["list"]:
-        var_1 = text(
-        """
-        INSERT INTO telegram_chat (telegram_id, name, type) 
-        VALUES(:id_1, :name_1, :type_1)   
-        ON CONFLICT (telegram_id) DO NOTHING
-        """
-        )
-        con_5.execute(var_1, {"id_1": chat["id"], "name_1": chat.get("name"), "type_1": chat["type"]},)
+        # insert_5 = TelegramChat().insert().values(telegram_id = chat["id"],  name = chat.get("name"), type = chat["type"])
+        insert_5 = insert(TelegramChat).values(telegram_id=chat["id"], name=chat.get("name"), type=chat["type"])
+        result = con_5.execute(insert_5)
 
         for message in chat["messages"]:
-            var_2 = text(
-            """
-            INSERT INTO telegram_message (telegram_id, date, unix_timestamp, from_name, from_id, chat_id)
-            VALUES(:id_2, :date_2, :unix_timestamp_2, :from_name_2, :from_id_2, :chat_id_2) 
-            ON CONFLICT(telegram_id) DO NOTHING
-            """
-            )
-            con_5.execute(var_2, {"id_2": message["id"], "date_2": message["date"], "unix_timestamp_2": message["date_unixtime"], "from_name_2": message.get("from"), "from_id_2": message.get("from_id"), "chat_id_2": chat["id"]},)
-            # Can "chat_id_2: chat["id"]" be used in the previous line? Or is it 'duplicating'? (if yes - how to do that correctly?
+            insert_51 = insert(TelegramMessage).values(telegram_id=message["id"], date=message["date"], unix_timestamp=message["date_unixtime"], from_name=message.get("from"), from_id=message.get("from_id"), chat_id=chat["id"])
+# telegram_id, date, unix_timestamp, from_name, from_id, chat_id
+#             con_5.execute(var_2, {"id": message["id"], "date": message["date"], "unix_timestamp": message["date_unixtime"], "from_name": message.get("from"), "from_id": message.get("from_id"), "chat_id": chat["id"]},)
+            result = con_5.execute(insert_51)
 
+        # for message in chat["messages"]:
+
+
+        # for chat in exported_data_dict["chats"]["list"]:
+#         var_1 = text(
+#             """
+#             INSERT INTO telegram_chat (telegram_id, name, type)
+#             VALUES(:id, :name, :type)
+#             ON CONFLICT (telegram_id) DO NOTHING
+#             """
+#         )
+#         con_5.execute(var_1, {"id": chat["id"], "name": chat.get("name"), "type": chat["type"]},)   # "id" or "telegram_id" should be used?
+#
+#         for message in chat["messages"]:
+#             var_2 = text(
+#                 """
+#                 INSERT INTO telegram_message (telegram_id, date, unix_timestamp, from_name, from_id, chat_id)
+#                 VALUES(:id, :date, :unix_timestamp, :from_name, :from_id, :chat_id)
+#                 ON CONFLICT (telegram_id) DO NOTHING
+#                 """
+#             )
+#             # if message["id"] is None:
+#             #     print("id is None!")
+#             #     raise Exception
+#             con_5.execute(var_2, {"id": message["id"], "date": message["date"], "unix_timestamp": message["date_unixtime"], "from_name": message.get("from"), "from_id": message.get("from_id"), "chat_id": chat["id"]},)
+#             # (?) Can "chat_id_2: chat["id"]" be used in the previous line? Or is it 'duplicating'? (if yes - how to do that correctly?
+#
         con_5.commit()
 
 
