@@ -25,7 +25,7 @@ class TelegramChat(Base):
 
 class TelegramMessage(Base):
     __tablename__ = "telegram_message"
-    id = Column(BigInteger, primary_key=True)
+    id = Column(BigInteger, primary_key=True)   # (alternative for auto-increment?!)  id = Column(BigInteger().with_variant(Integer, "sqlite"), primary_key=True)
     telegram_id = Column(BigInteger, unique=True)
     date = Column(DateTime)
     unix_timestamp = Column(BigInteger)

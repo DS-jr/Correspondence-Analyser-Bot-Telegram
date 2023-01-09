@@ -1,4 +1,4 @@
-import json, config
+import json, config, dateutil.parser
 from sqlalchemy import create_engine, insert, delete
 from sqlalchemy.sql import text
 from create_tables_in_DB import TelegramChat, TelegramMessage
@@ -11,26 +11,27 @@ engine = create_engine(config.DATABASE_STRING, future=True)  # Engine is a facto
 
 # Insert chat data (telegram_id, name, type) into SQLite:
 
-# ins = students.insert().values(name = 'Ravi', lastname = 'Kapoor')
+# ins = students.insert().values(name = 'Ravi', lastname = 'Kapoor')   # (CDL) Example
 # conn = engine.connect()
 # result = conn.execute(ins)
 
 with engine.connect() as con_5:
 
-    delete_all = delete(TelegramChat)
+    delete_all = delete(TelegramChat)    # (CDL) For testing purposes
     con_5.execute(delete_all)
 
     for chat in exported_data_dict["chats"]["list"]:
         # insert_5 = TelegramChat().insert().values(telegram_id = chat["id"],  name = chat.get("name"), type = chat["type"])
         insert_5 = insert(TelegramChat).values(telegram_id=chat["id"], name=chat.get("name"), type=chat["type"])
-        result = con_5.execute(insert_5)
+        result_5 = con_5.execute(insert_5)
 
         for message in chat["messages"]:
-            insert_51 = insert(TelegramMessage).values(telegram_id=message["id"], date=message["date"], unix_timestamp=message["date_unixtime"], from_name=message.get("from"), from_id=message.get("from_id"), chat_id=chat["id"])
-# telegram_id, date, unix_timestamp, from_name, from_id, chat_id
-#             con_5.execute(var_2, {"id": message["id"], "date": message["date"], "unix_timestamp": message["date_unixtime"], "from_name": message.get("from"), "from_id": message.get("from_id"), "chat_id": chat["id"]},)
-            result = con_5.execute(insert_51)
+            insert_51 = insert(TelegramMessage).values(telegram_id=message["id"], date=dateutil.parser.parse(message["date"]), unix_timestamp=message["date_unixtime"], from_name=message.get("from"), from_id=message.get("from_id"), chat_id=chat["id"])
+            result_51 = con_5.execute(insert_51)
 
+        # date = message["date"]
+        # telegram_id, date, unix_timestamp, from_name, from_id, chat_id
+        #             con_5.execute(var_2, {"id": message["id"], "date": message["date"], "unix_timestamp": message["date_unixtime"], "from_name": message.get("from"), "from_id": message.get("from_id"), "chat_id": chat["id"]},)
         # for message in chat["messages"]:
 
 
