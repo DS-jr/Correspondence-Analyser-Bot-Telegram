@@ -26,10 +26,11 @@ with engine.connect() as con_5:
 
         for message in chat["messages"]:
             insert_51 = insert(TelegramMessage).values(telegram_id=message["id"], date=dateutil.parser.parse(message["date"]), unix_timestamp=message["date_unixtime"], from_name=message.get("from"), from_id=message.get("from_id"), chat_id=chat["id"]) # (?) (error: NOT NULL constraint failed: telegram_message.id ) (hypothesis) Auto-increment is NOT working in "id" column
-#            insert_51 = insert(TelegramMessage).values(id=message["id"], telegram_id=message["id"], date=dateutil.parser.parse(message["date"]), unix_timestamp=message["date_unixtime"], from_name=message.get("from"), from_id=message.get("from_id"), chat_id=chat["id"]) # This "crutch" experimental draft variant worked w/ NO errors
             result_51 = con_5.execute(insert_51)
 
-#        id = chat.["id"]  # did NOT work
+
+        #            insert_51 = insert(TelegramMessage).values(id=message["id"], telegram_id=message["id"], date=dateutil.parser.parse(message["date"]), unix_timestamp=message["date_unixtime"], from_name=message.get("from"), from_id=message.get("from_id"), chat_id=chat["id"]) # This "crutch" experimental draft variant worked w/ NO errors
+        #        id = chat.["id"]  # did NOT work
 #        id = chat.get("id")  # did NOT work
 #        telegram_id = message["id"]  # Old variant that did NOT work
 

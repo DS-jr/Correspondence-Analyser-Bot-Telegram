@@ -3,6 +3,7 @@ from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy import create_engine, Column, BigInteger, Integer, String, DateTime, ForeignKey
 import config
 
+
 # class Base(DeclarativeBase):
 #     pass
 Base = declarative_base()
@@ -12,7 +13,7 @@ engine = create_engine(config.DATABASE_STRING, echo=True, future=True)  # Engine
 
 class TelegramChat(Base):
     __tablename__ = "telegram_chat"
-    id = Column(BigInteger, primary_key=True)
+    id = Column(Integer, primary_key=True)  # (?!) Convert to string?
     telegram_id = Column(BigInteger, unique=True)
     name = Column(String(128))
     type = Column(String(64))
@@ -25,7 +26,7 @@ class TelegramChat(Base):
 
 class TelegramMessage(Base):
     __tablename__ = "telegram_message"
-    id = Column(BigInteger, primary_key=True)   # (alternative for auto-increment?!)  id = Column(BigInteger().with_variant(Integer, "sqlite"), primary_key=True)
+    id = Column(Integer, primary_key=True)  # (?!) Convert to string?
     telegram_id = Column(BigInteger, unique=True)
     date = Column(DateTime)
     unix_timestamp = Column(BigInteger)

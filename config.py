@@ -1,8 +1,14 @@
 import os
 
-DATABASE_STRING = os.getenv("DATABASE_STRING", "sqlite:///my_db.sqlite")
+DATABASE_STRING = os.getenv("DATABASE_STRING", "postgresql://DS@localhost:5432/v1_tg_data_export")
+# postgresql://[user[:password]@][netloc][:port][/dbname][?param1=value1&...]
 
+# HOST = "localhost"
+# PORT = 5432
+# DATABASE = "v1_tg_data_export"
+# USER = "DS"
 
+# DATABASE_STRING = os.getenv("DATABASE_STRING", "sqlite:///my_db.sqlite")   # This solution worked fine
 
 
 # "DATABASE_STRING" is an ‘environment variable’ here, right?
