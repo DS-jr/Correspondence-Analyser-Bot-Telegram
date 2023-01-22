@@ -17,6 +17,7 @@ class TelegramChat(Base):
     telegram_id = Column(BigInteger, unique=True)
     name = Column(String(128))
     type = Column(String(64))
+    creation_date = Column(DateTime)
 
     messages = relationship("TelegramMessage", back_populates="chat", cascade="all, delete")  # (?) What should be used here: ?"message" or "chat" ?
 

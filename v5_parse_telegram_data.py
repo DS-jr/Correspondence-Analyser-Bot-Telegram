@@ -17,11 +17,15 @@ engine = create_engine(config.DATABASE_STRING, future=True)  # Engine is a facto
 
 with engine.connect() as con_5:
 
-    delete_all = delete(TelegramChat)    # (CDL) For testing purposes
-    con_5.execute(delete_all)
+    # delete_all = delete(TelegramChat)    # (CDL) For testing purposes
+    # con_5.execute(delete_all)
 
     for chat in exported_data_dict["chats"]["list"]:
-        insert_5 = insert(TelegramChat).values(telegram_id=chat["id"], name=chat.get("name"), type=chat["type"])
+
+        if not chat["messages"]:
+            continue
+
+        insert_5 = insert(TelegramChat).values(telegram_id=chat["id"], name=chat.get("name"), type=chat["type"], creation_date=chat["messages"][0]["date"])  # (add?!) dateutil.parser.parse
         result_5 = con_5.execute(insert_5)
 
         for message in chat["messages"]:
