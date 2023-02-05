@@ -1,6 +1,15 @@
 from sqlalchemy.orm import declarative_base, relationship
+
 # from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy import create_engine, Column, BigInteger, Integer, String, DateTime, ForeignKey
+from sqlalchemy import (
+    create_engine,
+    Column,
+    BigInteger,
+    Integer,
+    String,
+    DateTime,
+    ForeignKey,
+)
 import config
 
 
@@ -8,7 +17,9 @@ import config
 #     pass
 Base = declarative_base()
 
-engine = create_engine(config.DATABASE_STRING, echo=True, future=True)  # Engine is a factory that can create new database connections
+engine = create_engine(
+    config.DATABASE_STRING, echo=True, future=True
+)  # Engine is a factory that can create new database connections
 
 
 class TelegramChat(Base):
@@ -19,7 +30,9 @@ class TelegramChat(Base):
     type = Column(String(64))
     creation_date = Column(DateTime)
 
-    messages = relationship("TelegramMessage", back_populates="chat", cascade="all, delete")  # (?) What should be used here: ?"message" or "chat" ?
+    messages = relationship(
+        "TelegramMessage", back_populates="chat", cascade="all, delete"
+    )  # (?) What should be used here: ?"message" or "chat" ?
 
     def __repr__(self):
         return f"Chat(id={self.telegram_id!r}, name={self.name!r})"  # (??) What for is this line? Why "type" is NOT used here, but only "id" & "name"?
@@ -36,15 +49,17 @@ class TelegramMessage(Base):
     # text
     # text_entities   # In JSON it contains a list of dictionaries
 
-    chat_id = Column(BigInteger, ForeignKey("telegram_chat.telegram_id"), nullable=False)
+    chat_id = Column(
+        BigInteger, ForeignKey("telegram_chat.telegram_id"), nullable=False
+    )
 
     chat = relationship("TelegramChat", back_populates="messages")
 
     def __repr__(self):
         return f"Message(id={self.id!r}, from_name={self.from_name!r})"
 
+
 Base.metadata.create_all(engine)
 
 # (alternative)  # *** (from documentation)  Changed in version 2.0: Note that the declarative_base() function is superseded by the new DeclarativeBase class, which generates a new “base” class using subclassing, rather than return value of a function. This allows an approach that is compatible with PEP 484 typing tools.
 # Base = declarative_base()
-

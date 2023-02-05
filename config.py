@@ -1,6 +1,8 @@
 import os
 
-DATABASE_STRING = os.getenv("DATABASE_STRING", "postgresql://DS@localhost:5432/v1_tg_data_export")
+DATABASE_STRING = os.getenv(
+    "DATABASE_STRING", "postgresql://DS@localhost:5432/v1_tg_data_export"
+)
 # postgresql://[user[:password]@][netloc][:port][/dbname][?param1=value1&...]
 
 # HOST = "localhost"
@@ -22,4 +24,3 @@ DATABASE_STRING = os.getenv("DATABASE_STRING", "postgresql://DS@localhost:5432/v
 #            default: _T) -> str | _T
 # Get an environment variable, return None if it doesn't exist. The optional second argument can specify an alternate default. key, default and the result are str.
 # `getenv(key, default)`
-

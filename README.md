@@ -7,3 +7,5 @@ This script:
     - How many of these users were new contacts?
     - How many messages have you sent & received? 
     - Etc.
+
+ - When exporting from TG: select TEXT data only, NOT Photos / Videos / Voice / GIFs / Files 

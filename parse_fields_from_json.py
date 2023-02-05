@@ -12,10 +12,9 @@ number_of_chats = len(data_dict["chats"]["list"])
 
 number_of_messages = 0
 for chat in data_dict["chats"]["list"]:
-    number_of_messages += len(chat["messages"]) # (?) Is this the most efficient way? ***(alternative) Taking the max 'id' value among all 'messages'?!
+    number_of_messages += len(
+        chat["messages"]
+    )  # (?) Is this the most efficient way? ***(alternative) Taking the max 'id' value among all 'messages'?!
 
-    #print(len(chat["messages"]))
-#print(number_of_messages)
-
-
-
+    # print(len(chat["messages"]))
+# print(number_of_messages)

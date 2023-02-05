@@ -7,7 +7,7 @@ connection_4 = psycopg2.connect(
     host=os.getenv("HOST"),
     port=os.getenv("PORT"),
     database=os.getenv("DATABASE"),
-    user=os.getenv("USER")
+    user=os.getenv("USER"),
 )
 
 cursor_4 = connection_4.cursor()
@@ -47,25 +47,35 @@ connection_4.commit()
 for chat in export_data_to_dictionary["chats"]["list"]:
     for message_parameter in chat["messages"]:
         var_3 = "INSERT INTO messages_1 (tgmessageid, type, date, date_unixtime, fromname, fromid) VALUES (%s, %s, %s, %s, %s, %s)"
-        cursor_4.execute(var_3, (message_parameter["id"], message_parameter["type"], message_parameter["date"], message_parameter["date_unixtime"], message_parameter["from"], message_parameter["from_id"]))
+        cursor_4.execute(
+            var_3,
+            (
+                message_parameter["id"],
+                message_parameter["type"],
+                message_parameter["date"],
+                message_parameter["date_unixtime"],
+                message_parameter["from"],
+                message_parameter["from_id"],
+            ),
+        )
         # var_1 = message_parameter["id"]
         # var_2 = "INSERT INTO messages_1 (tgmessageid) VALUES (var_1);" # (?) Why does this line create an error?  ***psycopg2.errors.UndefinedColumn: column "var_1" does not exist
         # cursor_4.execute(var_2)
 connection_4.commit()
 
 
-        # print(message_text)
-        # print(type(message_text))
+# print(message_text)
+# print(type(message_text))
 
-        # print(message_date)
-        # print(type(message_date))
+# print(message_date)
+# print(type(message_date))
 
-        # print(parameters)
-        # print(type(parameters))
+# print(parameters)
+# print(type(parameters))
 
-    # print(message_data)
-    # print(type(message_data))
-    #print(type(chat))
+# print(message_data)
+# print(type(message_data))
+# print(type(chat))
 
 # print(list_of_chats)
 # print(type(list_of_chats))
