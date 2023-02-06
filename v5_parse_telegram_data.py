@@ -23,11 +23,12 @@ with engine.connect() as con_5:
             telegram_id=chat["id"],
             name=chat.get("name"),
             type=chat["type"],
-            creation_date=chat["messages"][0]["date"],
-        )  # (add?!) dateutil.parser.parse
+            first_date_from_the_left_side_in_messages_list=chat["messages"][0]["date"],
+        )  # (add?) dateutil.parser.parse
+
         result_5 = con_5.execute(insert_5)
 
-        message_min_date = chat["messages"][0]["date"]
+        messages_min_date_confirmed = chat["messages"][0]["date"]
 
         for message in chat["messages"]:
             insert_51 = insert(TelegramMessage).values(
@@ -39,12 +40,16 @@ with engine.connect() as con_5:
                 chat_id=chat["id"],
             )  # (?) (error: NOT NULL constraint failed: telegram_message.id ) (hypothesis) Auto-increment is NOT working in "id" column
             result_51 = con_5.execute(insert_51)
-            if message["date"] < message_min_date:
-                message_min_date = message["date"]
-                print(message_min_date)
+            if message["date"] < messages_min_date_confirmed:
+                messages_min_date_confirmed = message["date"]
+                print(messages_min_date_confirmed, "(inside the second 'for' cycle)") # (CDL) To confirm the 'if' condition above is never executed
 
-        print(message_min_date)
+        insert_6 = insert(TelegramChat).values(
+            messages_min_date_checked=messages_min_date_confirmed
+        )
+        result_6 = con_5.execute(insert_6)
 
+        # print(messages_min_date_confirmed)
         con_5.commit()
 
         #            insert_51 = insert(TelegramMessage).values(id=message["id"], telegram_id=message["id"], date=dateutil.parser.parse(message["date"]), unix_timestamp=message["date_unixtime"], from_name=message.get("from"), from_id=message.get("from_id"), chat_id=chat["id"]) # This "crutch" experimental draft variant worked w/ NO errors

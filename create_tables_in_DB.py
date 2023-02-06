@@ -13,8 +13,6 @@ from sqlalchemy import (
 import config
 
 
-# class Base(DeclarativeBase):
-#     pass
 Base = declarative_base()
 
 engine = create_engine(
@@ -28,7 +26,8 @@ class TelegramChat(Base):
     telegram_id = Column(BigInteger, unique=True)
     name = Column(String(128))
     type = Column(String(64))
-    creation_date = Column(DateTime)
+    first_date_from_the_left_side_in_messages_list = Column(DateTime)
+    messages_min_date_checked = Column(DateTime)
 
     messages = relationship(
         "TelegramMessage", back_populates="chat", cascade="all, delete"
@@ -60,6 +59,9 @@ class TelegramMessage(Base):
 
 
 Base.metadata.create_all(engine)
+
+# class Base(DeclarativeBase):
+#     pass
 
 # (alternative)  # *** (from documentation)  Changed in version 2.0: Note that the declarative_base() function is superseded by the new DeclarativeBase class, which generates a new “base” class using subclassing, rather than return value of a function. This allows an approach that is compatible with PEP 484 typing tools.
 # Base = declarative_base()
