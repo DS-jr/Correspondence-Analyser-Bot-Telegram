@@ -1,5 +1,5 @@
 import json, config, dateutil.parser
-from sqlalchemy import create_engine, insert, delete, update, text
+from sqlalchemy import create_engine, insert, delete, update, text, Table, Column
 # from sqlalchemy.sql import text
 from create_tables_in_DB import TelegramChat, TelegramMessage
 
@@ -46,11 +46,12 @@ with engine.connect() as con_5:
 
         # (CDL)  UPDATE instead of INSERT
         # This block could be deleted in case we prove the "if" condition above is NOT necessary (aka can also be deleted)
-        u = update(TelegramChat)
+        tablename_telegram_chat = TelegramChat.__tablename__
+        u = update(tablename_telegram_chat)
         updated_column_name = TelegramChat.messages_min_date_checked
         val = u.values({"updated_column_name":"messages_min_date_confirmed"})
-        cond = val.where(TelegramChat.c.updated_column_name == "NULL")   #  Error: AttributeError: type object 'TelegramChat' has no attribute 'c'
-        con_5.execute(cond)
+        cond = val.where(tablename_telegram_chat.c.updated_column_name == "NULL")   # (?) Error: AttributeError: type object 'TelegramChat' has no attribute 'c'
+#        con_5.execute(cond)
 
         # insert_6 = insert(TelegramChat).values(
         #     messages_min_date_checked=messages_min_date_confirmed
