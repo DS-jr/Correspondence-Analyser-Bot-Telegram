@@ -46,12 +46,18 @@ with engine.connect() as con_5:
 
         # (CDL)  UPDATE instead of INSERT
         # This block could be deleted in case we prove the "if" condition above is NOT necessary (aka can also be deleted)
-        tablename_telegram_chat = TelegramChat.__tablename__
-        u = update(tablename_telegram_chat)
-        updated_column_name = TelegramChat.messages_min_date_checked
-        val = u.values({"updated_column_name":"messages_min_date_confirmed"})
-        cond = val.where(tablename_telegram_chat.c.updated_column_name == "NULL")   # (?) Error: AttributeError: type object 'TelegramChat' has no attribute 'c'
+        # tablename_telegram_chat = TelegramChat.__tablename__
+        # u = update(tablename_telegram_chat)
+        # updated_column_name = TelegramChat.messages_min_date_checked
+        # val = u.values({"updated_column_name":"messages_min_date_confirmed"})
+        # cond = val.where(tablename_telegram_chat.c.updated_column_name == "NULL")   # (?) Error: AttributeError: type object 'TelegramChat' has no attribute 'c'
 #        con_5.execute(cond)
+
+        # upd = update(TelegramChat).where(TelegramChat.telegram_id==chat['id']).values(name=="New name")   # (CDL) General example
+        # upd = update(TelegramChat).where(TelegramChat.messages_min_date_checked=="NULL").values(TelegramChat.messages_min_date_checked==messages_min_date_confirmed)
+
+        upd = update(TelegramChat).where(TelegramChat.telegram_id==chat['id']).values(TelegramChat.messages_min_date_checked==messages_min_date_confirmed)  #  Error: AttributeError: 'Comparator' object has no attribute 'items'
+        con_5.execute(upd)
 
         # insert_6 = insert(TelegramChat).values(
         #     messages_min_date_checked=messages_min_date_confirmed
